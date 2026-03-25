@@ -65,7 +65,7 @@ public double getGPA() {
     return totalPoints / totalCredits; 
 }
 public String toString() {
-    DecimalFormat df = new DecimalFormat("0.0#"); [cite: 50]
+    DecimalFormat df = new DecimalFormat("0.0#");
     String result = "SID " + studentID + " GPA=" + df.format(getGPA()) + "\n";
     for (int i = 0; i < grades.length; i++) {
         if (grades[i] != null) {
