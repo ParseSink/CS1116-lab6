@@ -9,18 +9,71 @@ public class Transcript {
 		studentID = id;
 		grades = new CourseGrade[100];
 	}
-
 	// Please implement the following methods following the description in the assignment.
-//	public boolean addCourseGrade(CourseGrade grade) { }
-
-//	public CourseGrade[] getCourseGrades(String sem) { }
-
-//	public double getGPA() { }
-
-//	public String toString() { }
-	
-	
-	
+public boolean addCourseGrade(CourseGrade grade) {
+    //look for empty spot then create a deep copy to modify the array.
+    for (int i = 0; i < grades.length; i++) {
+        if (grades[i] == null) {
+            // deep copy array
+            CourseGrade copy = new CourseGrade(grade.getSemester(), grade.getCourseNumber(), grade.getLetterGrade());
+            grades[i] = copy;
+            return true;
+        }
+    }
+    return false;
+}
+public CourseGrade[] getCourseGrades(String sem) {
+	// find length of class list (n)
+    int count = 0;
+    for (int i = 0; i < grades.length; i++) {
+        if (grades[i] != null && grades[i].getSemester().equals(sem)) {
+            count++;
+        }
+    }
+    //create an array of n length
+    CourseGrade[] matchingGrades = new CourseGrade[count];
+    //loop to preform a deep copy of the changes
+    int newIndex = 0;
+    for (int i = 0; i < grades.length; i++) {
+        if (grades[i] != null && grades[i].getSemester().equals(sem)) {
+            CourseGrade copy = new CourseGrade(grades[i].getSemester(), grades[i].getCourseNumber(), grades[i].getLetterGrade());
+            matchingGrades[newIndex] = copy;
+            newIndex++;
+        }
+    }
+    return matchingGrades;
+}
+public double getGPA() {
+    double totalPoints = 0.0;
+    int totalCredits = 0;
+    for (int i = 0; i < grades.length; i++) {
+        if (grades[i] != null) {
+            char letter = grades[i].getLetterGrade();
+            if (letter != 'I') {
+                totalCredits += 3;
+                if (letter == 'A') totalPoints += (4 * 3);
+                else if (letter == 'B') totalPoints += (3 * 3);
+                else if (letter == 'C') totalPoints += (2 * 3);
+                else if (letter == 'D') totalPoints += (1 * 3);
+                else if (letter == 'E') totalPoints += (0 * 3);
+            }
+        }
+    }
+    if (totalCredits == 0) {
+        return 0.0;
+    }
+    return totalPoints / totalCredits; 
+}
+public String toString() {
+    DecimalFormat df = new DecimalFormat("0.0#"); [cite: 50]
+    String result = "SID " + studentID + " GPA=" + df.format(getGPA()) + "\n";
+    for (int i = 0; i < grades.length; i++) {
+        if (grades[i] != null) {
+            result += grades[i].getSemester() + " " + grades[i].getCourseNumber() + " " + grades[i].getLetterGrade() + "\n";
+        }
+    }
+    return result;
+}
 	
 	////////////////////////////////////////////////////////////////////////
 	////////////////////   Don't change anything below  ////////////////////
